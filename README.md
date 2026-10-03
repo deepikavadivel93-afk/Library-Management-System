@@ -18,8 +18,8 @@ Developed by Deepika V, B.Tech CSE (AIML), St. Joseph's Institute of Technology.
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-username>/library-management-system.git
-cd library-management-system
+git clone https://github.com/deepikavadivel93-afk/Library-Management-System.git
+cd Library-Management-System
 pip install -r requirements.txt
 
 python app.py              # web app  ->  open http://127.0.0.1:5000
