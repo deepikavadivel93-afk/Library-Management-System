@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Issue / Return{% endblock %}
+{% block content %}
+<h2>Issue / Return</h2>
+<div class="panel">
+  <h3>Issue a book</h3>
+  <form method="post" action="{{ url_for('issue') }}" class="inline wrapform">
+    <label>Book
+      <select name="book_id" required>
+        <option value="">Select a book</option>
+        {% for b in books %}<option value="{{ b.book_id }}">{{ b.title }} ({{ b.available }} left)</option>{% endfor %}
+      </select></label>
+    <label>Member
+      <select name="member_id" required>
+        <option value="">Select a member</option>
+        {% for m in members %}<option value="{{ m.member_id }}">{{ m.name }}</option>{% endfor %}
+      </select></label>
+    <label>Issue date <small>(optional - back-date to test fines)</small>
+      <input type="date" name="issue_date" max="{{ today }}"></label>
+    <button class="btn">Issue</button>
+  </form>
+</div>
+<h3>Currently issued</h3>
+<div class="scroll"><table>
+  <tr><th>Txn</th><th>Book</th><th>Member</th><th>Issued</th><th>Due</th><th>Status</th><th></th></tr>
+  {% for r in active %}
+  <tr><td>{{ r.txn_id }}</td><td>{{ r.title }}</td><td>{{ r.name }}</td><td>{{ r.issue_date }}</td><td>{{ r.due_date }}</td>
+      <td>{% if r.late_days %}<span class="pill none">{{ r.late_days }} day(s) late - fine Rs. {{ r.fine_now }}</span>
+          {% else %}<span class="pill ok">On time</span>{% endif %}</td>
+      <td><form method="post" action="{{ url_for('return_', txn_id=r.txn_id) }}"><button class="btn small">Return</button></form></td></tr>
+  {% else %}<tr><td colspan="7" class="empty">No books are currently issued.</td></tr>{% endfor %}
+</table></div>
+<h3>Recently returned</h3>
+<div class="scroll"><table>
+  <tr><th>Txn</th><th>Book</th><th>Member</th><th>Issued</th><th>Returned</th><th>Fine</th></tr>
+  {% for r in history %}
+  <tr><td>{{ r.txn_id }}</td><td>{{ r.title }}</td><td>{{ r.name }}</td><td>{{ r.issue_date }}</td><td>{{ r.return_date }}</td><td>Rs. {{ r.fine }}</td></tr>
+  {% else %}<tr><td colspan="6" class="empty">Nothing returned yet.</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

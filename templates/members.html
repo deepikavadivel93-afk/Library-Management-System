@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Members{% endblock %}
+{% block content %}
+<h2>Members</h2>
+<div class="panel narrow">
+  <h3>Register a member</h3>
+  <form method="post" class="stack">
+    <label>Name <input name="name" required></label>
+    <label>Email <input name="email" type="email" required></label>
+    <button class="btn">Register</button>
+  </form>
+</div>
+<div class="scroll"><table>
+  <tr><th>ID</th><th>Name</th><th>Email</th></tr>
+  {% for m in members %}<tr><td>{{ m.member_id }}</td><td>{{ m.name }}</td><td>{{ m.email }}</td></tr>
+  {% else %}<tr><td colspan="3" class="empty">No members yet.</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

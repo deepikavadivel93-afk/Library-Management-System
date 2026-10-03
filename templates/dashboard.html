@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Dashboard</h2>
+<div class="cards">
+  <div class="card"><span>{{ stats.titles }}</span>Book titles</div>
+  <div class="card"><span>{{ stats.available }} / {{ stats.copies }}</span>Copies available</div>
+  <div class="card"><span>{{ stats.issued }}</span>Currently issued</div>
+  <div class="card {{ 'warn' if stats.overdue else '' }}"><span>{{ stats.overdue }}</span>Overdue</div>
+  <div class="card"><span>{{ stats.members }}</span>Members</div>
+  <div class="card"><span>Rs. {{ stats.fines }}</span>Fines collected</div>
+</div>
+{% if stats.titles == 0 %}
+<div class="panel">
+  <h3>Getting started</h3>
+  <p>The library is empty. Add books and members from the menu, or load a small set of sample data to try the system out.</p>
+  <form method="post" action="{{ url_for('seed') }}"><button class="btn">Load sample data</button></form>
+</div>
+{% else %}
+<div class="panel">
+  <h3>Quick actions</h3>
+  <p><a class="btn" href="{{ url_for('circulation') }}">Issue or return a book</a>
+     <a class="btn ghost" href="{{ url_for('books') }}">Search books</a></p>
+</div>
+{% endif %}
+{% endblock %}
